@@ -7,12 +7,13 @@ import Layout from './components/Layout';
 
 import './i18/config';
 import Multistepform from './components/Multistepform';
+import Tablefilter from './components/Tablefilter';
 
 function App() {
   return (
     <>
     <Layout />
-    <Filter />
+    <Tablefilter />
     <Multistepform />
     <Footer />
     </>

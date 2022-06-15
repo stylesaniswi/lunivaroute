@@ -6,17 +6,18 @@ import {SearchOutlined} from '@ant-design/icons'
 const {Search} = Input
   
 
-function Filter() {
+function Filter(props) {
     const [details, setDetails] = useState([]);
     const [loading, setloading] = useState(true);
     const [q, setQ] = useState("");
-       
+    const {value} = props
+       console.log(value);
     useEffect(() => {
       getData();
     },[]);
   
     const getData = async () => {
-      const res = await fetch('https://lunivacare.ddns.net/LunivaRouteAPI/LunivarouteManagementApi/GetCounterDetails')
+      const res = await fetch(`https://lunivacare.ddns.net/LunivaRouteAPI/LunivarouteManagementApi/${value}`)
       .then(res=>res.json())
       .then(json=>setDetails(json.CounterDetails))
       setloading(false);
