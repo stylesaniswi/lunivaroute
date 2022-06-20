@@ -38,12 +38,7 @@ function Filter(props) {
             );
     }
 
-    // details.map() => {  
-    //   return(
-
-    //   )
-      
-    // }
+    
     const columns = [
         {
           title: 'CId',
