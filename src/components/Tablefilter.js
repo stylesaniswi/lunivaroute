@@ -15,7 +15,6 @@ function Tablefilter() {
         setVal(value);
         setShow(true)
       };
-      console.log(val);
   return (
     <div>
          <Select
@@ -26,12 +25,17 @@ function Tablefilter() {
     onSearch={onSearch}
     filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
   >
-    <Option value="vehicle">Vehicle</Option>
-    <Option value="staff">Staff</Option>
-    <Option value="route">Route</Option>
+    <Option value="GetVehicleDetails">Vehicle</Option>
+    <Option value="GetStaffDetails">Staff</Option>
+    <Option value="GetRouteDetails">Route</Option>
     <Option value="GetCounterDetails">Counter</Option>
+    <Option value="GetUserDetails">User</Option>
   </Select>
-  <Button onClick={()=>setShow(true)}>Load</Button>
+  <Button 
+  type='primary'
+  style={{marginBottom:10}}
+  onClick={()=>setShow(true)}>Load
+  </Button>
   {show &&
         <Filter
         value ={val} 

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStepsForm } from 'sunflower-antd';
 import { Steps, Input, Button, Form, Result, Checkbox } from 'antd';
 import {Trans, useTranslation } from 'react-i18next';
+
+
 
 const { Step } = Steps;
 
@@ -13,7 +15,12 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
+const handleFinish = (values)=>{
+  console.log("valuesss....", values);
+}
+
 export default props => {
+  const [value, setValue] =useState({})
   const {
     form,
     current,
@@ -24,8 +31,7 @@ export default props => {
     formLoading,
   } = useStepsForm({
     async submit(values) {
-      const { fullname, email, address, education, companyname,remarks } = values;
-      console.log(fullname, email, address, education, companyname,remarks);
+      setValue(values);
       await new Promise(r => setTimeout(r, 1000));
       return 'ok';
     },
@@ -158,6 +164,7 @@ export default props => {
       <div style={{ marginTop: 60 }}>
         <Form {...layout} {...formProps} style={{ maxWidth: 600 }}>
           {formList[current]}
+
         </Form>
 
         {current === 3 && (
@@ -177,7 +184,6 @@ export default props => {
                 </Button>
                 <Button
                  onClick={() => {
-                    form.resetFields();
                     gotoStep(2);
                   }}
                   >Check detail</Button>
