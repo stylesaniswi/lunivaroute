@@ -2,6 +2,7 @@ import { Input ,Space, Table, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import {SearchOutlined} from '@ant-design/icons'
 import {useNavigate} from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 
 const {Search} = Input
@@ -9,9 +10,11 @@ const {Search} = Input
   
 
 function Filter(props) {
+  const myUser=useSelector((state)=>state.user);
   const navigate =useNavigate();
     const [details, setDetails] = useState([]);
     const [loading, setloading] = useState(true);
+    const [column,setColumn] = useState({})
     const [q, setQ] = useState("");
     const {value} = props;
     const detailOf = value.split('Get');
@@ -26,8 +29,8 @@ function Filter(props) {
       .then(json=>setDetails(json[detailOf[1]]))
       setloading(false);
     };
+    console.log(details);
    
-  
     function search(rows){
         return rows.filter(
             (row)=> 
@@ -37,7 +40,20 @@ function Filter(props) {
             row.EntryDate.includes(q)
             );
     }
-
+// if (!loading){
+//   const keys = Object.keys(details[0])
+//     const column = keys.map((row)=>{
+//       return (
+//         {
+//           title:row,
+//           dataIndex:row
+//         }
+//       )
+//     })
+//     console.log(
+//       "ystooo xa",column);
+// }
+    
     
     const columns = [
         {
@@ -89,6 +105,7 @@ function Filter(props) {
       onSearch={(e)=> setQ(e.target.value)}
     />
         </div>
+        <div>hello {myUser.UserName}</div>
         <div>
             <Table columns={columns} dataSource={search(details)} />
         </div>

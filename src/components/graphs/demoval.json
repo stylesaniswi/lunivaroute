@@ -1,0 +1,23 @@
+{
+  "Vehicles": {
+    "totalVehicle": 200,
+    "assignedVehicle": 87
+  },
+
+  "BarData": [
+    { "name": "Vehicle Used", "Day": "Sun", "numberOfV": 12},
+    { "name": "Vehicle Used", "Day": "Mon", "numberOfV": 23},
+    { "name": "Vehicle Used", "Day": "Tues", "numberOfV": 34 },
+    { "name": "Vehicle Used", "Day": "Wed", "numberOfV": 99 },
+    { "name": "Vehicle Used", "Day": "Thrus", "numberOfV": 52 },
+    { "name": "Vehicle Used", "Day": "Fri", "numberOfV": 35 },
+    { "name": "Vehicle Used", "Day": "Sat", "numberOfV": 37 },
+    { "name": "Vehicle Remaining", "Day": "Sun", "numberOfV": 98 },
+    { "name": "Vehicle Remaining", "Day": "Mon", "numberOfV": 15},
+    { "name": "Vehicle Remaining", "Day": "Tues", "numberOfV": 56 },
+    { "name": "Vehicle Remaining", "Day": "Wed", "numberOfV": 10 },
+    { "name": "Vehicle Remaining", "Day": "Thrus", "numberOfV": 43 },
+    { "name": "Vehicle Remaining", "Day": "Fri", "numberOfV": 65},
+    { "name": "Vehicle Remaining", "Day": "Sat", "numberOfV": 72 }
+  ]
+}

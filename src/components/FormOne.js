@@ -13,6 +13,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 const FormOne = (props) => {
   const [componentSize, setComponentSize] = useState('default');
@@ -20,6 +21,8 @@ const FormOne = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const Cid = parseInt(searchParams.get("q"));
   const axios =require('axios').default;
+  const [form] = Form.useForm();
+  const myUser=useSelector((state)=>state.user);
 
   useEffect(() => {
     fetchData();
@@ -59,20 +62,32 @@ const FormOne = (props) => {
     return formData;
   }
 
-  const onFinish = (values) => {
-    let postVal={}
-    if (values !== undefined) {
-      postVal = {
-        CId: Cid,
-        ...values,
-        EntryDate: moment(values?.EntryDate).format()
-      }}
-      let datum = generateUrlEncodedData(postVal)
-      console.log(postVal);
-      pushToAPI('https://lunivacare.ddns.net/LunivaRouteAPI/LunivarouteManagementApi/InsertUpdateCounterDetails',datum)
-  };
- 
+  // const handleFormSubmit =(event)=>{
+  //   event.preventDefault();
 
+  //   const title = event.target.elements.title.value;
+  //       const content = event.target.elements.content.value;
+
+  //       console.log(title, content);
+
+  // }
+
+  const onFinish = (values) => {
+   
+        
+        let postVal={}
+        if (values !== undefined) {
+          postVal = {
+            CId: Cid,
+            ...values,
+            EntryDate: moment(values?.EntryDate).format()
+          }}
+          let datum = generateUrlEncodedData(postVal)
+          console.log(postVal);
+          pushToAPI('https://lunivacare.ddns.net/LunivaRouteAPI/LunivarouteManagementApi/InsertUpdateCounterDetails',datum)
+        }
+        
+        
   const pushToAPI =  (url,data)=>{
     console.log(data);
     axios.post(url,data)
@@ -82,6 +97,10 @@ const FormOne = (props) => {
     .catch(function (error) {
       console.log(error);
     });
+  }
+
+  const handleEnter =() =>{
+    console.log("Pressed enter")
   }
 
   let prevVal = {}
@@ -94,10 +113,14 @@ const FormOne = (props) => {
   
   return (
     <>
+    <div><h1>next page {myUser.UserName}</h1></div>
     {
       dataSource !== undefined &&
       <Form
-        onFinish={onFinish}
+      onSubmit= {e =>console.log("submitted") }
+      // onSubmit={e => e.preventDefault()}
+      onFinish={onFinish}
+      form={form}
         labelCol={{
           span: 4,
         }}
@@ -112,7 +135,7 @@ const FormOne = (props) => {
        
 
         <Form.Item name="CounterName" type="text" label="Counter Name">
-          <Input />
+          <Input onPressEnter={handleEnter}/>
         </Form.Item>
         <Form.Item name="CounterLocation" type="text" label="Counter Location">
           <Input />
@@ -129,7 +152,7 @@ const FormOne = (props) => {
         </Form.Item>
         <Form.Item >
           <Button htmlType='submit'
-            type='link'
+            type='primary'
           >Save</Button>
 
         </Form.Item>

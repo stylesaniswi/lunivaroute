@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import { Select,Button } from 'antd';
 import Filter from './Filter';
+import { useSelector } from 'react-redux';
+import Dashboard from './Dashboard';
 const { Option } = Select;
 
 function Tablefilter() {
+  
+  // const myUser=useSelector((state)=>state.user);
+  const user = JSON.parse(sessionStorage.getItem("user"));
     const[val,setVal] = useState("");
     const [show ,setShow] =useState(false);
     const onChange = (value) => {
@@ -16,6 +21,7 @@ function Tablefilter() {
         setShow(true)
       };
   return (
+
     <div>
          <Select
     showSearch
@@ -41,7 +47,7 @@ function Tablefilter() {
         value ={val} 
         />
   }
-
+  <Dashboard />
     </div>
   )
 }
