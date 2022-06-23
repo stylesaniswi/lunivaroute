@@ -11,6 +11,9 @@
 	overflow: hidden;
     height: auto;
 }
+.card2{
+    height: 500px;
+}
 .ant-card-body{
     background-color:#fefefe;
 }

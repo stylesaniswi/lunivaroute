@@ -1,74 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { Pie } from '@ant-design/plots';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Doughnut } from "react-chartjs-2";
 
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement } from 'chart.js';
 
-const Piechart = () => {
-    const value = require('./demoval.json').Vehicles;
-  const data = [
-    {
-      type: 'Total',
-      value: value.totalVehicle,
-    },
-    {
-      type: 'Assigned',
-      value: value.assignedVehicle,
-    },
-    {
-      type: 'Remaining',
-      value: (value.totalVehicle - value.assignedVehicle),
-    },
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement);
+
+// some of this code is a variation on https://jsfiddle.net/cmyker/u6rr5moq/
+
+const Piechart=()=> {
     
-  ];
-  console.log(value);
-  const config = {
-    appendPadding: 10,
-    data,
-    angleField: 'value',
-    colorField: 'type',
-    radius: 1,
-    innerRadius: 0.6,
-    label: {
-      type: 'inner',
-      offset: '-50%',
-      content: '{value}',
-      style: {
-        textAlign: 'center',
-        fontSize: 14,
-      },
-    },
-    interactions: [
-      {
-        type: 'element-selected',
-      },
-      {
-        type: 'element-active',
-      },
-    ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: 'pre-wrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          fontSize:14,
-        },
-        content: 'Vehicle Status',
-      },
-    },
-    legend: {
-        layout: 'horizontal',
-        position: 'bottom'
-      },
-    theme: {
-        colors10: [
-          '#0E8E89',
+    const value = require('./demoval.json').Vehicles;
+    
+const data = {
+      labels: ["Total", "Assigned", "Remaining"],
+      datasets: [
+        {
+          data: [value.totalVehicle, value.assignedVehicle,(value.totalVehicle - value.assignedVehicle)],
+          backgroundColor: [
+            '#0E8E89',
           '#E19348',
           '#247FEA',
-        ]}
-  };
-  return <Pie {...config} />;
-};
- 
+        ],
+          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        
+        }
+      ],
+     
+      plugins: {
+        labels: {
+          render: "percentage",
+          fontColor: ["green", "white", "red"],
+          precision: 2
+        },
+      },
+       text: "23%",
+    };
+    
+    
+
+    return (
+      <div>
+        <h2>React Doughnut with Text Example</h2>
+        <Doughnut
+          data={data}
+          options={{
+            
+            // elements: {
+              
+            //   center: {
+            //     legend: { display: true, position: "right" },
+            //     text: "Red is 2/3 the total numbers",
+            //     color: "#FF6384", // Default is #000000
+            //     fontStyle: "Arial", // Default is Arial
+            //     sidePadding: 20, // Default is 20 (as a percentage)
+            //     minFontSize: 20, // Default is 20 (in px), set to false and text will not wrap.
+            //     lineHeight: 25 // Default is 25 (in px), used for when text wraps
+            //   }
+            // },
+            
+          }}
+        />
+      </div>
+    );
+  }
+
+
 export default Piechart;
