@@ -6,10 +6,12 @@ import './login.css'
 
 import {  useDispatch } from "react-redux";
 import { userStatus, userName} from "../action/index";
+import useToken from './useToken';
 
 
 function Login() {
   const [users ,setUsers] = useState([]);
+  const {token, setToken} = useToken()
 
   // const myState= useSelector((state)=>state.changeTheNumber);
  
@@ -25,6 +27,8 @@ function Login() {
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    // use token here
+    setToken(values);
 
     const getUserData = async () => {
       await fetch(`https://lunivacare.ddns.net/LunivaRouteAPI/LunivarouteManagementApi/CheckValidLogin?username=${values.username}&password=${values.password}`)
@@ -100,3 +104,4 @@ function Login() {
 };
     export default Login;
    
+  

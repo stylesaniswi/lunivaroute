@@ -10,6 +10,9 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
+import { DatePicker, Space } from 'antd';
+const { RangePicker } = DatePicker;
+
 
 ChartJS.register(
   CategoryScale,
@@ -24,12 +27,47 @@ ChartJS.register(
 
 const Bargraph2=()=> {
     const [datas, setData] = useState([]);
-  const value = require('./demoval.json').BarData;
+    const [x, setX] = useState([]);
+    const [y, setY] = useState([]);
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+  // const value = require('./demoval.json').BarData;
 
   useEffect(() => {
-    setData(value);
+    getData();
+    setdata();
   }, []);
-  console.log(datas);
+
+  useEffect(()=>{
+    getData();
+    setData();
+  },startDate,endDate)
+  console.log("dataaaaa",datas);
+
+  const getData = async () => {
+    await fetch(`https://lunivacare.ddns.net/LunivaRouteAPI/LunivarouteManagementApi/GetCounterWiseTotalCollectionAmt?fromdate=${startDate}&todate=${endDate}&comapnyid=2`)
+    .then(res=>res.json())
+    .then(json=>setData(json.CounterWiseCOllectionTotal))
+  };
+
+  const setdata =() =>{
+    if(datas===undefined){
+      setX();
+      setY();
+    }
+    setX(datas.map((row)=>{
+      return (row.COunter)
+       }) );
+    
+       setY(datas.map((row)=>{
+        return (row.TotalAmt)
+         }) );
+  }
+
+  
+
+
+//  console.log("range",startDate,endDate);
 
     const options = {
         responsive: true,
@@ -52,43 +90,58 @@ const Bargraph2=()=> {
             },
             y: {
               stacked: true,
-              min:0,
-              max:10,
-              steps:1,
-
-            },
+           },
             
           },
           
         
       };
       
-      const labels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thrusday', 'Friday', 'Saturday'];
+      const labels = x;
       
       const data = {
         labels,
         datasets: [
           {
             label: 'Used',
-            data: datas.map((row)=>{
-                if(row.name === "Vehice Used"){
-                    return(row.numberofV)
-                }
-            }),
-            backgroundColor: '#ff6384',
+            data: y,
+            backgroundColor: '#36a2eb',
             stack:'Stack 0',
           },
-          {
-            label: 'Remaining',
-            data: [34,56,120,43,56,78,23],
-            backgroundColor: '#36a2eb',
-            stack: 'stack 1'
-          },
+          // {
+          //   label: 'Remaining',
+          //   data: [34,56,120,43,56,78,23],
+          //   backgroundColor: '#36a2eb',
+          //   stack: 'stack 1'
+          // },
         ],
       };
 
+      const handleOk =() =>{
+        alert("success")
+      }
+
+      const handleChange=(value,dateString)=> {
+        setStartDate(dateString[0]);
+        setEndDate(dateString[1]);
+        console.log('Formatted Selected Time: ', dateString);
+      }
+
   return (
+    <>
+    <Space direction="vertical" size={12}>
+    <RangePicker 
+    allowClear={false}
+    id="date" name= "date"
+    style={{ width: '547px', marginLeft:'20px'}} 
+    separator="-" 
+    onChange={handleChange}
+    format="YYYY-MM-DD"
+    onOk={handleOk}
+    />
+  </Space>
   <Bar options={options} data={data} />
+    </>
   )
 }
 
